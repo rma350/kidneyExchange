@@ -1,0 +1,17 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\begin{document}
+\begin{tikzpicture}[yscale=-1]
+\node[draw, circle,fill = blue!20] (0) at (659.5534570729446pt,333.45819150263907pt) {};
+\node[draw, circle,fill = blue!20] (1) at (433.45819150263907pt,240.4465429270553pt) {};
+\node[draw, circle,fill = blue!20] (2) at (566.5418084973609pt,559.5534570729446pt) {};
+\node[draw, circle,fill = blue!20] (3) at (340.4465429270553pt,466.5418084973609pt) {};
+\path[line width = .05em, loosely dotted, -latex]  (2) edge[bend right,] (0);
+\path[line width = .05em, loosely dotted, -latex]  (1) edge[bend right,] (0);
+\path[line width = .05em, loosely dotted, -latex]  (0) edge[bend right,] (1);
+\path[line width = .05em, loosely dotted, -latex]  (1) edge[bend right,] (3);
+\path[line width = .05em, loosely dotted, -latex]  (3) edge[bend right,] (1);
+\path[line width = .05em, loosely dotted, -latex]  (0) edge[bend right,] (2);
+\path[line width = .05em, loosely dotted, -latex]  (2) edge[] (3);
+\end{tikzpicture}
+\end{document}

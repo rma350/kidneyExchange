@@ -1,0 +1,8 @@
+{
+  "links":[
+    {"id":"p1p2","sourceId":"p1","targetId":"p2"},
+    {"id":"p2p1","sourceId":"p2","targetId":"p1"},
+    {"id":"p4p3","sourceId":"p4","targetId":"p3"},
+    {"id":"p3p4","sourceId":"p3","targetId":"p4"}
+  ]
+}

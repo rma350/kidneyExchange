@@ -1,0 +1,21 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\begin{document}
+\begin{tikzpicture}[yscale=-1]
+\node[draw, circle,fill = blue!20] (0) at (495.16989640955546pt,577.8930635644563pt) {};
+\node[draw, circle,fill = blue!20] (1) at (375.4802835768675pt,327.84607379749133pt) {};
+\node[draw, circle,fill = blue!20] (2) at (650.3032045469033pt,307.24955255394974pt) {};
+\node[draw, circle,fill = blue!20] (3) at (624.5197164231324pt,472.15392620250867pt) {};
+\node[draw, circle,fill = blue!20] (4) at (504.8301035904445pt,222.10693643554376pt) {};
+\node[draw, circle,fill = blue!20] (5) at (349.6967954530965pt,492.7504474460503pt) {};
+\node[draw, circle,fill = green!20] (6) at (499.99999999999994pt,400.00000000000006pt) {};
+\path[line width = .05em, loosely dotted, -latex]  (1) edge[] (5);
+\path[line width = .05em, loosely dotted, -latex]  (6) edge[] (1);
+\path[line width = .05em, loosely dotted, -latex]  (3) edge[] (2);
+\path[line width = .05em, loosely dotted, -latex]  (4) edge[] (1);
+\path[line width = .05em, loosely dotted, -latex]  (6) edge[] (3);
+\path[line width = .05em, loosely dotted, -latex]  (5) edge[] (0);
+\path[line width = .05em, loosely dotted, -latex]  (0) edge[] (3);
+\path[line width = .05em, loosely dotted, -latex]  (2) edge[] (4);
+\end{tikzpicture}
+\end{document}

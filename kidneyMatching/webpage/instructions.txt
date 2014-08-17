@@ -1,0 +1,11 @@
+Instructions to test webpage locally (with no rpc)
+
+1. download and unzip
+2. navigate to kidneyWebsite
+3. Be sure that localMode = true in kidneyExchange.js
+3. run the command
+
+python -m SimpleHTTPServer
+
+4. open chrome
+5. go to localhost:8000

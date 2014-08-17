@@ -1,0 +1,23 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\begin{document}
+\begin{tikzpicture}[yscale=-1]
+\node[draw, circle,fill = blue!20] (0) at (454.8301313544649pt,172.6853592955912pt) {};
+\node[draw, circle,fill = blue!20] (1) at (307.6416469450685pt,242.83025264722949pt) {};
+\node[draw, circle,fill = green!20] (2) at (408.73692664998936pt,441.0554397075885pt) {};
+\node[draw, circle,fill = blue!20] (3) at (618.2290361277164pt,202.93659853101693pt) {};
+\node[draw, circle,fill = blue!20] (4) at (269.18793095022124pt,503.83269636684713pt) {};
+\node[draw, circle,fill = blue!20] (5) at (640.1312666421611pt,584.595479417273pt) {};
+\node[draw, circle,fill = blue!20] (6) at (585.3517365843588pt,361.6038234671535pt) {};
+\node[draw, circle,fill = blue!20] (7) at (490.00131395768pt,648.2017158489572pt) {};
+\node[draw, circle,fill = green!20] (8) at (725.8900107883395pt,442.2586347183428pt) {};
+\path[line width = .08em, -latex]  (6) edge[] (3);
+\path[line width = .08em, -latex]  (8) edge[] (5);
+\path[line width = .05em, loosely dotted, -latex]  (8) edge[] (6);
+\path[line width = .08em, -latex]  (5) edge[] (7);
+\path[line width = .08em, -latex]  (3) edge[] (0);
+\path[line width = .08em, -latex]  (0) edge[] (1);
+\path[line width = .08em, -latex]  (2) edge[] (6);
+\path[line width = .05em, loosely dotted, -latex]  (2) edge[] (4);
+\end{tikzpicture}
+\end{document}

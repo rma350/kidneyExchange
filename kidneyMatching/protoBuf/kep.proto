@@ -1,0 +1,271 @@
+package kepProtos;
+
+option java_outer_classname = "KepProtos";
+
+message Edge {
+  optional string name = 1;
+  optional string source = 2;
+  optional string dest = 3;
+  optional double weight = 4;
+}
+
+message KepInstance {
+  repeated string rootNode = 1;
+  repeated string pairedNode = 2;
+  repeated string terminalNode = 3;
+  repeated Edge edge = 4;
+  optional int32 maxCycleLength = 5;
+  optional int32 maxChainLength = 6;//if not present, then it will be assumed that the max chain length is infinite
+  optional double cycleBonus= 7;  
+}
+
+message EdgeValue {
+  optional string edgeName = 1;
+  optional double value = 2;
+}
+
+message Cycle {
+  repeated string edgeNameOrdered = 1;
+}
+
+message Chain {
+  repeated string edgeNameOrdered = 1;
+}
+
+message CycleValue {
+  optional Cycle cycle = 1;
+  optional double value = 2;
+}
+
+
+message FractionalSolution {
+  repeated EdgeValue nonZeroEdge = 1;
+  repeated CycleValue nonZeroCycle = 2;
+}
+
+message IntegerSolution{
+  repeated Chain chainSelected = 1;
+  repeated Cycle cycleSelected = 2;
+}
+
+message PhaseOneSolution{
+  repeated string edgeNameSelected = 1;
+}
+
+message EdgeFailureProbabilities{
+  repeated EdgeValue edgeFailureProbability = 1;
+}
+
+message EdgeFailureScenario{
+  repeated string failedEdgeName = 1;
+}
+
+message EdgeFailureScenarios{
+  repeated EdgeFailureScenario failureScenario = 1;
+}
+
+message Segment{
+  repeated string edgeId = 1;
+  optional double time = 2;
+}
+
+message SegmentedChain{
+  repeated Segment segment = 1;
+  optional bool completed = 2;
+}
+
+message DynamicMatching{
+  repeated SegmentedChain chainTime = 1;
+  repeated CycleValue cycleTime = 2;
+}
+
+enum ObjectiveMetric{
+  MAX_CARDINALITY = 0;
+  PAIR_MATCH_POWER = 1;
+  PRA = 2;
+}
+
+enum PrioritizationLevel{
+  TIE_BREAKER = 1;
+  MODERATE = 2;
+  EXTREME = 3;
+  LEXICOGRAPHIC = 4;
+  NEG_MATCH_MODERATE = 5;
+  NEG_MATCH_EXTREME = 6;
+}
+
+message Objective{
+  optional ObjectiveMetric metric = 1 [default = PAIR_MATCH_POWER];
+  optional PrioritizationLevel prioritization = 2 [default = MODERATE] ;
+}
+
+message Range{
+  optional double lowerBound = 1;
+  optional double upperBound = 2;
+}
+
+enum HLA{
+  HLA_A = 1;
+  HLA_B = 2;
+  DR = 3;
+  Cw = 4;
+  DQ = 5;
+  DP = 6;    
+}
+
+enum SpecialHLA{
+  Bw4 = 1;
+  Bw6 = 2;
+  DR51 = 3;
+  DR52 = 4;
+  DR53 = 5;  
+}
+
+enum BloodType{
+  O = 1;
+  A = 2;
+  B = 3;
+  AB = 4;
+}
+
+enum NodeType{
+  NDD = 1;
+  PAIRED = 2;
+  TERMINAL = 3;
+}
+
+
+message DonorPredicate{
+  repeated HLA homozygous = 1;
+  // generates a single predicate indicating if the person has any of the indicated blood types.
+  repeated BloodType bloodType = 2;
+  optional Range poolDonorPower = 3;
+  optional Range historicDonorPower = 4;
+  optional Range poolPra = 5;
+  optional Range historicPra = 6;
+}
+
+message PatientPredicate{
+  // generates a single predicate indicating if the person has any of the indicated blood types.
+  repeated BloodType bloodType = 1;
+  optional Range poolPatientPra = 2;
+  optional Range historicPatientPra = 3;
+  optional Range patientAge = 4;
+  // patient historic power and patient pool power are defined at the node level.
+}
+
+message NodePredicate{
+  // produces a *single predicate* for all the donors associated with this node.
+  optional DonorPredicate donorPredicate = 1;
+  // if and, then every condition must be true for a donor to match.
+  // if or, then at least one condition must be true for a donor to match.
+  optional Relation combinePredicatesForDonor = 2;
+  // if and, then every donor must match for the node to match
+  // if or, then at least one donor must match for the donor to match.
+  optional Relation combineDonorsForNode = 3;
+  optional PatientPredicate patientPredicate = 4;
+  optional Range inDegree = 5;
+  optional Range outDegree = 6;
+  repeated NeighborhoodPredicate inNeighborhoodPredicate = 7;
+  repeated NeighborhoodPredicate outNeighborhoodPredicate = 8;
+  //generated a single predicate indicating if the raw node type is in this list
+  repeated NodeType rawNodeType = 9;
+  //generated a single predicate indicating if the current node type is in this list
+  repeated NodeType currentNodeType = 10;
+
+  optional Range waitingTime = 11;
+  optional Range poolPatientPower = 12;
+  optional Range historicPatientPower = 13;
+  optional Range poolDonorPower = 14;
+  optional Range historicDonorPower = 15;
+  optional Range poolPairMatchPower = 16;
+  optional Range historicPairMatchPower = 17;
+}
+
+message NeighborhoodPredicate{
+  optional NodePredicate neighborPredicate = 1;
+  optional Range neighborCount = 2;
+}
+
+message EdgePredicate{
+  optional NodePredicate source = 1;
+  optional NodePredicate target = 2;
+  optional bool checkSameCenter = 3;
+  optional DonorPredicate edgeDonorPredicate = 4;
+}
+
+message EdgeConjunction{
+  repeated EdgePredicate edgePredicate = 1;
+  //these seem like a mistake?  it isn't clear to what the negation will be applied
+  //repeated EdgePredicate negatedEdgePredicate = 2;
+  repeated EdgeConjunction edgeConjunction= 3;
+  //repeated EdgeConjunction negatedEdgeConjunction= 4;
+  optional Relation relation = 5;
+}
+
+enum Relation{
+  AND = 1;
+  OR = 2;
+}
+
+message EdgeStep{
+  optional EdgeConjunction edgeConjunction = 1;
+  optional double score = 2;
+}
+
+message ObjectiveFunction{
+  repeated EdgeStep edgeStep = 1;
+  optional double constant = 2;
+}
+
+message KepModelerInputs{
+  optional int32 maxCycleLength = 1 [default = 3];
+  optional int32 maxChainLength = 2 [default = 2147483647];
+  optional double cycleBonus = 3 [default = .01];
+
+  //use either objective or objective function, but not both
+  optional Objective objective = 4;
+  optional ObjectiveFunction objectiveFunction = 5;
+}
+
+enum MatchingMode{
+  DAYS = 1;
+  PATIENTS = 2;
+}
+
+message SimulationInputs{  
+  optional KepModelerInputs kepModelerInputs = 1;
+  optional double simulationStartTime  = 3;
+  optional double simulationEndTime  = 4;
+  optional MatchingMode matchingMode = 5 [default = DAYS];
+  optional int32 matchingFrequency = 6 [default = 7];
+}
+
+message NodeArrivalTime{
+  optional string nodeId = 1;
+  optional double arrivalTime = 2;
+}
+
+message RandomTrial{
+  repeated NodeArrivalTime nodeArrivalTime = 1;
+}
+
+message Simulation{
+  optional SimulationInputs simulationInputs = 1;
+  // only contains the trials that were simulated
+  repeated RandomTrial randomTrial = 2;
+  optional DynamicMatching historicDynamicMatching = 3;
+  repeated DynamicMatching randomTrialDynamicMatching = 4;
+  // the index of the first random trial within the set of all random trials
+  optional int32 indexWithinAllTrials = 5;
+}
+
+message SimulationJob{
+  optional SimulationInputs simulationInputs = 1;
+  optional bool runHistoric = 2;
+  // only the sublist of randomTrials that will be simulated
+  repeated RandomTrial randomTrial = 3;
+  // the index of the first random trial in "randomTrial" above within all the random trials to be run.
+  optional int32 indexWithinAllTrials = 4;
+}
+  

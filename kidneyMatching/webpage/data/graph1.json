@@ -1,0 +1,12 @@
+{
+  "nodes":[
+    {"id":"r1","type":"root","sensitized":0,"reachable":true},
+    {"id":"p1","type":"paired","sensitized":1,"reachable":true},
+    {"id":"p2","type":"paired","sensitized":0,"reachable":false},
+    {"id":"t1","type":"terminal","sensitized":3,"reachable":false}
+  ],
+  "links":[
+    {"id":"r1p1","sourceId":"r1","targetId":"p1"},
+    {"id":"p2t1","sourceId":"p2","targetId":"t1"}
+  ]
+}

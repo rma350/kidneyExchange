@@ -1,3 +1,6 @@
+# Temporary files from emacs
+*~
+
 *.class
 
 # Mobile Tools for Java (J2ME)

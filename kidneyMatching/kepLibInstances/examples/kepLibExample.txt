@@ -1,0 +1,48 @@
+#a comment, these can be anywhere, but # must be the first character of the line
+problemData
+maxChainLength,Infinity
+maxCycleLength,3
+cycleBonus,.01
+endProblemData
+rootNodes,4
+r1
+r2
+r3
+r4
+endRootNodes
+pairedNodes,4
+p1
+p2
+p3
+p4
+endPairedNodes
+terminalNodes,3
+t1
+t2
+t3
+endTerminalNodes
+edges,3
+e1,r1,p1,3.1
+e2,p1,p2,2.0
+e3,p2,p1,2.2
+endEdges
+#the constraints from here below may be broken, use at your own risk!!!!
+#force this node to have flow in = 1
+nodeConstraint,1,eq,1
+p1,1.0
+endNodeConstraint
+#force at most one of these edges to be used
+edgeConstraint,2,leq,1
+e1,1.0
+e2,1.0
+endEdgeConstraint
+#make a node ineligible to be a bridge donor
+bridgeConstraint,1,eq,0
+p3,1.0
+endBridgeConstraint
+#at least one of these nodes must be at the end of a chain
+bridgeConstraint,3,geq,1
+r1,1.0
+p1,1.0
+p2,1.0
+endBridgeConstraint

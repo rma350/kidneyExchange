@@ -1,0 +1,209 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="closure/closure/goog/base.js">
+    </script>
+    <script src="d3/d3.v3.js">
+    </script>    
+    <script>
+      goog.require('goog.dom');
+      goog.require('goog.dom.query');
+      goog.require('goog.events');
+      goog.require('goog.events.EventType');
+      goog.require('goog.style');
+      goog.require('goog.Timer');
+      goog.require('goog.fx.AnimationParallelQueue');
+      goog.require('goog.fx.dom');
+      goog.require('goog.fx');
+      goog.require('goog.net.XhrIo');
+      goog.require('goog.json');
+    </script>    
+    <style>
+      
+      .root {
+      stroke: #fff;
+      stroke-width: 1.5px;
+      }
+
+      .paired {
+      stroke: #fff;
+      stroke-width: 1.5px;
+      }
+
+      .terminal {
+      stroke: #fff;
+      stroke-width: 1.5px;
+      }
+      
+      .link {
+      stroke: #999;
+      stroke-opacity: .6;
+      }
+      .root text {
+      pointer-events: none;
+      font: 10px sans-serif;
+      }
+      .paired text {
+      pointer-events: none;
+      font: 10px sans-serif;
+      }
+      .terminal text {
+      pointer-events: none;
+      font: 10px sans-serif;
+      }
+      line.arrow {
+      stroke: #666;
+      stroke-width: 1px;
+      }
+      marker#end {
+      fill: #666;
+      }
+
+      div.tooltip {   
+      position: absolute;           
+      text-align: center;           
+      width: 60px;                  
+      height: 28px;                 
+      padding: 2px;             
+      font: 12px sans-serif;        
+      background: lightsteelblue;   
+      border: 0px;      
+      border-radius: 8px;           
+      pointer-events: none;         
+      }
+      
+    </style>    
+  </head>
+  <body>
+    <div id="container" style="height:100%;width:100%">
+
+      <div id="header" style="background-color:#AAAAFF;width:100%;text-align:center">
+	<h1 style="margin:5px;">Kidney Exchange Solver</h1></div>
+
+      <div id="menu" style="background-color:#EEEEEE;width:200px;float:left;">
+	<div id="options">
+	  <dl id="optionsList">
+	    <b>Solver Options</b>
+	    <dt>
+	      Solver Type:
+	      <select name="solverTypeSelector", id="solverTypeSelector",size="2">
+		<option>One Phase</option>
+		<option>Two Phase</option>
+	      </select>
+	    </dt>
+	    <dt>
+	      Optimize For:
+	      <select id="objectiveTypeSelector",size="2">
+		<option>PRA</option>
+		<option>PMP</option>
+	      </select>
+	    </dt>
+	    <dt>
+	      Prioritization:
+	      <select id="prioritizationLevelSelector",size="4">
+		<option>None</option>
+		<option>Moderate</option>
+		<option>High</option>
+		<option>Lexicographic</option>
+	      </select>
+	    </dt>
+	    <dt>
+	      Maximum Cycle Length:
+	      <select id="cycleLengthSelector",size="2">
+		<option>2</option>
+		<option>3</option>
+	      </select>
+	    </dt>
+	  </dl>
+	</div>
+
+	<div id="runSolver">
+	  <dl id="runSolverList"><b>Run Solver</b>
+	    <dt id="datasetItem">
+	      Select Dataset:
+	      <select id="datasetSelector">
+		<!--<option value=1>Graph 1</option>
+		<option value=2>Graph 2</option> -->
+	      </select>
+	    </dt>
+	    <dt>
+	      <button id="solveButton">Solve</button>
+	    </dt>
+	  </dl>
+	</div>
+
+	<div id="displyOptions">
+	  <dl>
+	    <b>Display Options</b>
+	    <dt>
+	      Hide Unreachable: <input id="checkUnreachable", type="checkbox" name="hideUnreachable" value="hideUnreachable"/>
+	    </dt>
+	    <dt>
+	      Hide Unmatched CHIPs: <input id="checkUnmatchedChips", type="checkbox" name="hideChip" value="hideChip"/>
+	    </dt>
+	    <dt>
+	      Hide not in solution: <input id="checkNotInSolution", type="checkbox" name="hideNoSol" value="hideNoSol"/>
+	    </dt>
+	  </dl>
+	</div>
+	<div id="legend">
+	  <dl>
+	    <b>Legend</b>
+	    <dt>
+	      Shape:
+	      <dl>
+		<dt> 
+		  <svg width="20" height="20">
+		    <polygon points="0,20 20,20 10,0" style="fill: #1f77b4;"></polygon>
+		  </svg> Altruistic/Bridge Donor
+		</dt>
+      		<dt>
+		  <svg width="20" height="20">
+		    <circle cx="10" cy="10" r="10" style="fill: #1f77b4;"></circle>
+		  </svg> Paired
+		</dt>      
+		<dt>
+		  <svg width="20" height="20">
+		    <rect x="0" y="0" width="20" height="20" style="fill: #1f77b4;"></rect> 
+		  </svg> CHIP
+		</dt>
+	      </dl>
+	    </dt>
+	    <dt>
+	      Color:
+	      <dl>
+		<dt>
+		  <svg width="20" height="20">
+		    <rect x="0" y="0" width="20" height="20" style="fill: #1f77b4;"></rect>
+		  </svg> Low sensitization 
+		</dt>
+      		<dt>
+		  <svg width="20" height="20">
+		    <rect x="0" y="0" width="20" height="20" style="fill: #aec7e8;"></rect>
+		  </svg> Medium sensitization
+		</dt>      
+		<dt>
+		  <svg width="20" height="20">
+		    <rect x="0" y="0" width="20" height="20" style="fill: #ff7f0e;"></rect> 
+		  </svg> High sensitization
+		</dt>
+      		<dt>
+		  <svg width="20" height="20">
+		    <rect x="0" y="0" width="20" height="20" style="fill: #ffbb78;"></rect>
+		  </svg> Very high sensitization
+		</dt>	
+	      </dl>
+	  </dl>
+	</div>
+      </div>
+
+      <div id="graphVis" style="height:500px;width:960px;float:left;border:2px solid; border-color:#888888;
+border-radius:25px; margin:0px 3px;">
+      </div>
+
+    </div>
+    <script src="kidneyExchange.js">
+    </script>    
+    
+  </body>
+</html>

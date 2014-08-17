@@ -1,0 +1,16 @@
+problemData
+maxChainLength,Infinity
+maxCycleLength,3
+cycleBonus,0
+endProblemData
+rootNodes,1
+r1
+endRootNodes
+pairedNodes,1
+p1
+endPairedNodes
+terminalNodes,0
+endTerminalNodes
+edges,1
+e1,r1,p1,2.0
+endEdges

@@ -1,0 +1,13 @@
+\documentclass{standalone}
+\usepackage{tikz}
+\begin{document}
+\begin{tikzpicture}[yscale=-1]
+\node[draw, circle,fill = blue!20] (0) at (715.1717106638823pt,328.1623570512233pt) {};
+\node[draw, circle,fill = green!20] (1) at (258.64514825689326pt,480.57919700494614pt) {};
+\node[draw, circle,fill = blue!20] (2) at (583.7524833239293pt,372.03823414084275pt) {};
+\node[draw, circle,fill = blue!20] (3) at (442.4306577552951pt,419.2202118029878pt) {};
+\path[line width = .05em, loosely dotted, -latex]  (0) edge[] (2);
+\path[line width = .08em, -latex]  (1) edge[] (3);
+\path[line width = .08em, -latex]  (3) edge[] (0);
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,13 @@
+edgeFailureScenarios
+numScenarios,3
+endEdgeFailureScenarios
+edgeSet,2
+e2
+e4
+endEdgeSet
+edgeSet,1
+e5
+endEdgeSet
+edgeSet,1
+e3
+endEdgeSet
