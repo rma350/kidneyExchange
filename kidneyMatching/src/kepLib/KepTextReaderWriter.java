@@ -302,7 +302,7 @@ public class KepTextReaderWriter extends KepIOBase {
       }
       writer.close();
     } catch (IOException e) {
-      throw new RuntimeException();
+      throw new RuntimeException(e);
     }
   }
 

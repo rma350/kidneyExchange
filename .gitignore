@@ -1,15 +1,11 @@
+# Files specific to this project
+*cplex125.jar
+kidneyMatching/output/
+kidneyMatching/buildKidneyMatching125.xml
+kidneyMatching/kidneyMatching125.jar
+
 # Temporary files from emacs
 *~
 
 *.class
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
-*cplex125.jar
-*.war
-*.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
