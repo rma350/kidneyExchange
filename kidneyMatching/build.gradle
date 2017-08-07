@@ -1,5 +1,4 @@
 apply plugin: 'java'
-apply plugin: 'maven'
 
 group = 'kidneyMatching'
 version = '1.0-SNAPSHOT'
@@ -33,7 +32,9 @@ tasks.withType(Test) {
     systemProperty 'java.library.path', '/usr/local/CPLEX_Studio/cplex/bin/x86-64_osx'
 }
 dependencies {
-    compile files('lib/lib64/cplex125.jar')
+    // link to cplex jar:
+    // ln -s $CPLEX_HOME/cplex/lib/cplex.jar lib/lib64/cplex127.jar
+    compile files('lib/lib64/cplex127.jar')
     compile group: 'com.google.guava', name: 'guava', version:'16.0'
     compile group: 'colt', name: 'colt', version:'1.2.0'
     compile group: 'org.ggf.drmaa', name: 'drmaa', version:'1.0'
