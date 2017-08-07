@@ -200,10 +200,14 @@ public class DrmaaExperimentRunner<V, E, T extends Comparable<T>> implements
       try {
         jt.setErrorPath(":" + getStdErrorNameForId(job.getOutFileId()));
         jt.setOutputPath(":" + getStdOutNameForId(job.getOutFileId()));
-        List<String> args = Lists.newArrayList("-Djava.library.path="
-            + drmaaLocation + ":" + cplexLocation, "-jar", programLocation,
-            "-m", "worker", "-t", Integer.toString(environment.getThreads()),
-            "-s", jobFileName, "-o", getSimResultNameForId(job.getOutFileId()));
+        String[] args = {
+          "-Djava.library.path=" + drmaaLocation + ":" + cplexLocation,
+          "-jar", programLocation,
+          "-m", "worker",
+          "-t", Integer.toString(environment.getThreads()),
+          "-s", jobFileName,
+          "-o", getSimResultNameForId(job.getOutFileId())
+        };
         jt.setArgs(args);
         String id = session.runJob(jt);
         ans.add(id);

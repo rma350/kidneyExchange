@@ -194,7 +194,7 @@ public class TwoStageEdgeFailureSolver<V,E> {
 				}
 			}
 			for(IloRange constraint: violatedConstraints){
-				this.add(constraint);
+				this.addLocal(constraint);
 			}
 		}		
 	}
