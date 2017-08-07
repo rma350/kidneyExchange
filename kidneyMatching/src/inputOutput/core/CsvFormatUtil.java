@@ -321,10 +321,10 @@ public class CsvFormatUtil {
   public static CsvFormat<List<? extends Person>> personListNameFormat = makeListFormat(
       idFormat, "|");
 
-  public static CSVFormat pgfPlotFileFormat = CSVFormat.EXCEL.withEncapsulator(
+  public static CSVFormat pgfPlotFileFormat = CSVFormat.EXCEL.withQuote(
       ' ').withDelimiter(' ');
   public static CSVFormat pgfPlotTableFormat = CSVFormat.EXCEL
-      .withEncapsulator(' ');
+      .withQuote(' ');
 
   public static CsvFormat<StatisticalSummary> meanFormat = new CsvFormat<StatisticalSummary>() {
     @Override

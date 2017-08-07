@@ -478,15 +478,15 @@ public class MinWaitingTimeKepSolver<V, E> {
       }
       if (!violatedConstraints.isEmpty()) {
         for (IloRange constraint : violatedConstraints) {
-          this.add(constraint);
+          this.addLocal(constraint);
         }
       } else if (addConsistencyConstraintsLazily) {
         ImmutableTable<V, V, Double> precVarVals = getPrecedenceVariableValues(this);
         for (List<V> constraint : precedenceConsistencyConstraintGenerator
             .checkFractionalSolution(kepPolytope.getEdgeVariables()
                 .getNonZeroVariableValues(this), precVarVals)) {
-          this.add(createPrecedenceConsistencyConstraint(constraint.get(0),
-              constraint.get(1), constraint.get(2)));
+          this.addLocal(createPrecedenceConsistencyConstraint(constraint.get(0),
+                  constraint.get(1), constraint.get(2)));
         }
         long totalFractionalCuts = precedenceConsistencyConstraintGenerator
             .getFractionalCutsAdded();

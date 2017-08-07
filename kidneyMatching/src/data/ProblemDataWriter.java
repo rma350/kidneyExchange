@@ -105,7 +105,7 @@ public class ProblemDataWriter {
 			for(int i = 0; i < format.getNumColumns(); i++){
 				firstRow[i]=format.getColumnNames().get(columnNameToPositionReversed.get(i));
 			}
-			printer.println(firstRow);
+			printer.printRecord(firstRow);
 			for(Donor donor: data.getAltruisticDonors().keySet()){
 				printDonor(donor,data.getAltruisticDonors().get(donor));
 			}
@@ -118,7 +118,7 @@ public class ProblemDataWriter {
 			for(Receiver receiver: data.getChips().keySet()){
 				printReceiver(receiver,data.getChips().get(receiver));
 			}
-			printer.println("--XXMY_o_YMXX--");
+			printer.printRecord("--XXMY_o_YMXX--");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -133,7 +133,7 @@ public class ProblemDataWriter {
 			row[position] = value;
 		}
 		try {
-			this.printer.println(row);
+			this.printer.printRecord(row);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -253,7 +253,7 @@ public class ProblemDataWriter {
 			row[position] = value;
 		}
 		try {
-			this.printer.println(row);
+			this.printer.printRecord(row);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

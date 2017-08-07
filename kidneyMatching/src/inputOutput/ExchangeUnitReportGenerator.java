@@ -194,7 +194,7 @@ public class ExchangeUnitReportGenerator {
 				if(col != this.numColumns){
 					throw new RuntimeException();
 				}
-				printer.println(firstRow);
+				printer.printRecord(firstRow);
 			}
 			for(ExchangeUnit unit: this.exchangeUnits){
 				String[] nextRow = new String[this.numColumns];			
@@ -210,7 +210,7 @@ public class ExchangeUnitReportGenerator {
 						//nextRow[col++] = this.exchangeUnitAttributeOut.getDonorAttributes().get(columnName).get(i).getValueFormatted(unit);
 					}				
 				}
-				printer.println(nextRow);
+				printer.printRecord(nextRow);
 			}
 			printer.flush();
 			writer.close();

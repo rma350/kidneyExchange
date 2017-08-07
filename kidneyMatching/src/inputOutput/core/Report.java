@@ -42,7 +42,7 @@ public class Report<V> {
       BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
       CSVPrinter printer = new CSVPrinter(writer, format);
       if (this.useTitles) {
-        printer.println(this.titles.toArray(new String[titles.size()]));
+        printer.printRecord(this.titles.toArray(new String[titles.size()]));
       }
       for (V entry : entries) {
         if (predicate.apply(entry)) {
@@ -50,7 +50,7 @@ public class Report<V> {
           for (AttributeConverter<V> converter : converters) {
             nextLine.add(converter.apply(entry));
           }
-          printer.println(nextLine.toArray(new String[this.converters.size()]));
+          printer.printRecord(nextLine.toArray(new String[this.converters.size()]));
         }
       }
       printer.flush();
